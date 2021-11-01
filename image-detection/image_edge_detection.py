@@ -97,6 +97,12 @@ def detect_edge_points_canny(image: Image.Image) -> list[tuple[int, int]]:
     gradient = approximate_gradient(blurred)
     gradient = keep_maximum_gradient(gradient)
     points = detect_strong_points(gradient[0])
+    # Uncomment the following lines to see the points detected
+    # result = Image.new("L", image.size)
+    # draw_result = ImageDraw.Draw(result)
+    # for p in points:
+    #     draw_result.point(p, fill=255)
+    # result.show()
     return points
 
 
