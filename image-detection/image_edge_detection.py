@@ -55,7 +55,7 @@ def keep_maximum_gradient(gradient: tuple[np.ndarray, np.ndarray]) -> tuple[np.n
     return (mag, dir)
 
 
-def strong_edge_points(mag: np.ndarray,
+def detect_strong_points(mag: np.ndarray,
                        low_threshold_ratio: float = 0.1,
                        high_threshold_ratio: float = 0.2) -> list[tuple[int, int]]:
 
@@ -96,7 +96,7 @@ def detect_edge_points_canny(image: Image.Image) -> list[tuple[int]]:
     blurred = convolve(grayscaled, kernels["gauss-blur"])
     gradient = approximate_gradient(blurred)
     gradient = keep_maximum_gradient(gradient)
-    points = strong_edge_points(gradient[0])
+    points = detect_strong_points(gradient[0])
     return points
 
 
