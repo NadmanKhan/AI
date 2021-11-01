@@ -1,6 +1,6 @@
 from image_convolution import convolve, kernels
 from PIL import Image, ImageDraw
-from math import floor, pi, sqrt, atan2
+from math import pi, sqrt, atan2
 import numpy as np
 
 
@@ -91,7 +91,7 @@ def detect_strong_points(mag: np.ndarray,
     return list(strong_points)
 
 
-def detect_edge_points_canny(image: Image.Image) -> list[tuple[int]]:
+def detect_edge_points_canny(image: Image.Image) -> list[tuple[int, int]]:
     grayscaled = image if image.mode == "L" else image.convert("L")
     blurred = convolve(grayscaled, kernels["gauss-blur"])
     gradient = approximate_gradient(blurred)
