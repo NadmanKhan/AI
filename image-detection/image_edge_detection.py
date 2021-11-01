@@ -4,20 +4,6 @@ from math import floor, pi, sqrt, atan2
 import numpy as np
 
 
-def convert_to_grayscale(image: Image.Image) -> Image.Image:
-    if image.mode == "L":
-        return image
-    
-    pixels = image.load()
-    intensity = np.zeros((image.height, image.width))
-
-    for x in range(image.width):
-        for y in range(image.height):
-            intensity[y, x] = round(sum(pixels[x, y]) / len(pixels[x, y]))
-
-    return Image.fromarray(intensity)
-
-
 def compute_gradient(image: Image.Image) -> tuple[np.ndarray, np.ndarray]:
     if image.mode != "L":
         image = image.convert("L")
@@ -33,6 +19,7 @@ def compute_gradient(image: Image.Image) -> tuple[np.ndarray, np.ndarray]:
             mag[x, y] = round(sqrt((mag_x[x, y] ** 2) + (mag_y[x, y] ** 2)))
             dir[x, y] = atan2(mag_y[x, y], mag_x[x, y])
     return (mag, dir)
+
 
 def approximate_gradient(image: Image.Image) -> tuple[np.ndarray, np.ndarray]:
     if image.mode != "L":
@@ -111,20 +98,6 @@ def detect_edge_points_canny(image: Image.Image) -> list[tuple[int]]:
     gradient = keep_maximum_gradient(gradient)
     points = strong_edge_points(gradient[0])
     return points
-
-
-def convolve_sobel(image: Image.Image) -> Image.Image:
-    mag = compute_gradient(image)[0]
-    k_size = len(kernels["sobel-x"])
-    offset = (k_size // 2)
-    result = Image.new("L", image.size)
-    draw_result = ImageDraw.Draw(result)
-
-    for x in range(offset, image.width - offset):
-        for y in range(offset, image.height - offset):
-            draw_result.point((x, y), int(mag[x, y]))
-
-    return result
 
 
 if __name__ == "__main__":

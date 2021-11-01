@@ -3,6 +3,7 @@ from image_edge_detection import detect_edge_points_canny
 from math import cos, sin, pi
 from PIL import Image, ImageDraw
 
+
 def pattern_detect(image: Image.Image, radius_range: tuple[int, int] = (17, 21),
                    threshold_ratio: float = 0.5):
     if not radius_range[0] <= radius_range[1]:
